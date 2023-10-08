@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset name="MyProject">
+    <description>My Project's coding standard.</description>
+
+    <!-- Exclude \Exception auto-fix -->
+    <rule ref="PSR12.Classes.PropertyDeclaration">
+        <exclude name="Squiz.Commenting.FunctionCommentThrowTag" />
+    </rule>
+</ruleset>
