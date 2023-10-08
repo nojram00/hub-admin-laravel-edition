@@ -15,12 +15,11 @@ class RoleChecker
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if ($request->user() && $request->user()->role_id == $role) {
+        if ($request->user() && $request->user()->user_role_id == $role) {
             return $next($request);
         }
 
-        // return redirect('/');
-        abort(403);
+        return redirect('/')->with('message', ['You are logged in as '.$request->user()->user_role_id]);
         //        abort('403'); // or you can throw any other http exception here...
     }
 }

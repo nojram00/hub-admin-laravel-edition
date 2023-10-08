@@ -1,32 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/loginUser" method="post">
-        @csrf
-        <label for="email">Username</label>
-        <input type="text" name="email" id="">
-        @error('email')
-            {{$message}}
-        @enderror
+<script type="text/javascript">
+    function back(){
+        window.location.href = '/';
+    }
+</script>
 
-        <label for="password">Password</label>
-            <input type="password" name="password" id="">
-        @error('password')
-            {{$message}}
-        @enderror
+@include('star-dash-partials.head', ['title' => 'HUB - Login'])
+    <div class="content-wrapper" style="min-height: 100vh">
+        <div class="card" style="margin-top: 20vh; margin-left: 35vw; height: 50vh; width: 50vh">
+            <div class="card-body">
+                <div class="card-title">
+                    <h2>Login</h2>
+                </div>
+                <div class="card-description">
+                    Login to Continue
+                </div>
+                <form action="/loginUser" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="email">Username</label>
+                        <input type="text" name="email" id="" class="form-control">
+                        @error('email')
+                            {{$message}}
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="" class="form-control">
+                        @error('password')
+                            {{$message}}
+                        @enderror
         <div>
 
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-secondary mx-2" onclick="back()">Back</button>
+                </form>
+            </div>
         </div>
-        <div>
-
-        </div>
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+    </div>
+@include('star-dash-partials.foot-n-plugins')
