@@ -30,30 +30,30 @@
   <link href="/assets/user/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="/assets/user/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+  <!--------JQUERY-------->
+  {{-- @vite(['resources/js/app.js']) --}}
+
   <!-- Template Main CSS File -->
   <link href="/assets/user/css/style.css" rel="stylesheet">
 
+  <script src="{{asset('assets/js/jquery.js')}}"></script>
   <script type="text/javascript">
 
-        document.addEventListener('DOMContentLoaded', function() {
-                // var prList = document.querySelectorAll('#products-navbar')
-                var prList = document.getElementById('products-navbar')
-                console.log(prList);
+        $(document).ready(function (){
+            var prList = $("#products-navbar")
+            console.log(prList);
 
                 if(prList.firstChild){
                     prList.removeChild(prList.firstChild);
                 }
 
-                fetch('/viewCategories').then((res) => {
-                    return res.json();
-                }).then((data) => {
-                    // console.log(data);
-                    data.forEach((d) => {
-                        var navList = document.createElement('li');
-                        navList.innerHTML = `<a href=/products/${d.id} class="text-uppercase">${d.category_name}</a>`
-                        prList.appendChild(navList)
-                        // console.log(d)
-                    });
+            $.get('/viewCategories', function(data){
+                console.log("ajax data: ",data)
+                data.forEach((d) => {
+                    var navList = $('<li>');
+                    navList.html(`<a href='/products/${d.id}' class="text-uppercase">${d.category_name}</a>`);
+                    navList.appendTo(prList);
+                });
                 })
         })
 
@@ -71,7 +71,7 @@
 </head>
 
 <body>
-    <header id="header" class="fixed-top d-flex align-items-center">
+    <header id="header" class="fixed-top d-flex align-items-center" style="min-width: 100vw">
         <div class="container d-flex justify-content-between">
 
           <div class="logo flex flex-col">
@@ -93,8 +93,8 @@
                 <ul>
                     <li class="dropdown"><a href=""><span>Quote your PC</span><i class="bi bi-chevron-right"></i></a>
                         <ul>
-                            <li><a href="/quotations/1">Intel Processors</a></li>
-                            <li><a href="/quotations/2">AMD Processors</a></li>
+                            <li><a href="/quotations/1">Intel Build</a></li>
+                            <li><a href="/quotations/2">AMD Build</a></li>
                         </ul>
                     </li>
                   <li class="dropdown"><a href="#"><span>Products</span> <i class="bi bi-chevron-right"></i></a>
@@ -113,6 +113,37 @@
                         <li><a href="">Facebook</a></li>
                     </ul>
                 </li>
+                @auth
+                    <li class="dropdown">
+                        <a href=""><span>{{Auth::user()->name}}</span><i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li class="m-3">
+                                <form action="/logout" method="POST">
+                                    @csrf
+                                    <input type="submit" value="Logout" class="nav-link scrollto" style="border: none; background: none; padding: 0; cursor: pointer;">
+                                </form>
+                            </li> --}}
+
+                            <li><a href="#" id="logout">Logout</a></li>
+                            <form action="/logout" id="logout-form" method="POST">
+                                @csrf
+                            </form>
+                            <li><a href="My Quotations"><span>My Quotations</span></a></li>
+                            @if (Auth::user()->user_role_id == 2) <!--- Check if it is admin -->
+
+                            <!-- Pag Admin, lalabas tong Option --->
+                                <li>
+                                    <a href="/dashboard/main">
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                @endauth
+                @guest
+                    <li><a href="/auth/login" class="nav-link scrollto">Login</a></li>
+                @endguest
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
           </nav><!-- .navbar -->
